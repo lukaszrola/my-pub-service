@@ -1,7 +1,8 @@
 package com.purecode.user.controller
 
 import com.purecode.user.controller.body.*
-import com.purecode.user.entity.*
+import com.purecode.user.entity.details.RelationshipStatus
+import com.purecode.user.entity.details.Sex
 import com.purecode.user.entity.preferences.*
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -32,18 +33,18 @@ class UserController {
                     pubCongestion = PubCongestion.LOW,
                     SmokingPermission.NO_SMOKING
             ),
-            favoriteAlcohols = listOf(
-                    Alcohol(
+            favoriteAlcoholBodies = listOf(
+                    AlcoholBody(
                             name = "Salamander",
                             brand = "Browar stu mostów",
                             kind = AlcoholKind.BEER
                     ),
-                    Alcohol(
+                    AlcoholBody(
                             name = "Porter bałtycki",
                             brand = "Komes",
                             kind = AlcoholKind.BEER
                     ),
-                    Alcohol(
+                    AlcoholBody(
                             name = "Khvanchkara",
                             brand = "Georgian Valley",
                             kind = AlcoholKind.WINE
