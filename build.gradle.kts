@@ -20,7 +20,7 @@ micronaut {
     testRuntime("kotest")
     processing {
         incremental(true)
-        annotations("com.purecode.*")
+        annotations("com.purecode.**")
     }
 }
 
@@ -34,6 +34,7 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation("org.amshove.kluent:kluent:1.61")
 }
 
 
