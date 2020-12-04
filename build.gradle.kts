@@ -49,11 +49,13 @@ tasks {
     compileKotlin {
         kotlinOptions {
             jvmTarget = "11"
+            freeCompilerArgs = listOf("-Xallow-result-return-type")
         }
     }
     compileTestKotlin {
         kotlinOptions {
             jvmTarget = "11"
+            freeCompilerArgs = listOf("-Xallow-result-return-type")
         }
     }
 

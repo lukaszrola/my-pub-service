@@ -1,54 +1,23 @@
 package com.purecode.user.controller
 
-import com.purecode.user.controller.body.*
-import com.purecode.user.entity.details.RelationshipStatus
-import com.purecode.user.entity.details.Sex
-import com.purecode.user.entity.preferences.*
+import com.purecode.user.controller.body.UserResponseBody
+import com.purecode.user.controller.error.UserErrors
+import com.purecode.user.entity.EmailAddress
+import com.purecode.user.service.UserService
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.QueryValue
 
 @Controller("users")
-class UserController {
+class UserController(private val userService: UserService) {
 
     @Get
-    fun getUser(): UserResponseBody = UserResponseBody(
-            contact = ContactBody(
-                    emailAddress = "lukasz.rola@wp.pl",
-                    phoneNumber = "555 532 532"
-            ),
-            personalDetails = PersonalDetailsBody(
-                    name = "Łukasz Rola",
-                    sex = Sex.MALE,
-                    dateOfBirth = DateBody(
-                            year = 1992,
-                            month = 2,
-                            day = 8
-                    ),
-                    relationshipStatus = RelationshipStatus.MARRIED
-            ),
-            pubPreferences = PubPreferencesBody(
-                    alcoholKind = AlcoholKind.BEER,
-                    musicKind = MusicKind.ROCK,
-                    pubSize = PubSize.MEDIUM,
-                    pubCongestion = PubCongestion.LOW,
-                    SmokingPermission.NO_SMOKING
-            ),
-            favoriteAlcoholBodies = listOf(
-                    AlcoholBody(
-                            name = "Salamander",
-                            brand = "Browar stu mostów",
-                            kind = AlcoholKind.BEER
-                    ),
-                    AlcoholBody(
-                            name = "Porter bałtycki",
-                            brand = "Komes",
-                            kind = AlcoholKind.BEER
-                    ),
-                    AlcoholBody(
-                            name = "Khvanchkara",
-                            brand = "Georgian Valley",
-                            kind = AlcoholKind.WINE
-                    )
+    fun getUser(@QueryValue email: String): HttpResponse<*> = userService
+            .findUserByEmail(EmailAddress(email))
+            .fold(
+                    onSuccess = { HttpResponse.ok(UserResponseBody(it)) },
+                    onFailure = { UserErrors.resolve(it) }
             )
-    )
+
 }

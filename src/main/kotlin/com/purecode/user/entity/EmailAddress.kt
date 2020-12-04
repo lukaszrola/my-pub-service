@@ -1,3 +1,5 @@
 package com.purecode.user.entity
 
-class EmailAddress (val value: String)
+data class EmailAddress (val value: String) {
+    override fun toString(): String = value
+}

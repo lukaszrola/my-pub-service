@@ -1,9 +1,9 @@
 package com.purecode.user.entity.details
 
-import com.purecode.user.controller.body.DateBody
+import java.time.LocalDate
 
 class PersonalDetails (
         val name: String,
         val sex: Sex,
-        val dateOfBirth: DateBody,
+        val dateOfBirth: LocalDate,
         val relationshipStatus: RelationshipStatus)
