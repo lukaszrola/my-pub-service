@@ -12,4 +12,4 @@ class User(
         val pubPreferences: PubPreferences,
         val personalDetails: PersonalDetails,
 
-)
+) : UserOperationResult

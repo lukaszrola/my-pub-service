@@ -8,7 +8,7 @@ import com.purecode.user.entity.details.Sex
 import com.purecode.user.entity.preferences.*
 import com.purecode.user.service.UserOperation
 import com.purecode.user.service.UserService
-import com.purecode.user.service.exception.UserNotFoundException
+import com.purecode.user.service.exception.UserNotFoundByEmailException
 import io.kotest.core.spec.style.BehaviorSpec
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
@@ -93,7 +93,7 @@ private fun getResponse(client: HttpClient, request: MutableHttpRequest<UserResp
 
 fun setUpMock(userServiceMock: UserService) {
     every { userServiceMock.findUserByEmail(EmailAddress(incorrectEmail)) } returns UserOperation.failure(
-        UserNotFoundException(incorrectEmail)
+        UserNotFoundByEmailException(incorrectEmail)
     )
     every { userServiceMock.findUserByEmail(EmailAddress(correctEmail)) } returns UserOperation.success(user)
 }
