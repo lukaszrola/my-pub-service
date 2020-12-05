@@ -4,7 +4,7 @@ import com.purecode.user.entity.User
 import io.micronaut.core.annotation.Introspected
 
 @Introspected
-class UserResponseBody(
+data class UserResponseBody(
         val contact: ContactBody,
         val personalDetails: PersonalDetailsBody,
         val pubPreferences: PubPreferencesBody,

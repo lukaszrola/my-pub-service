@@ -4,7 +4,7 @@ import com.purecode.user.entity.preferences.*
 import io.micronaut.core.annotation.Introspected
 
 @Introspected
-class PubPreferencesBody(
+data class PubPreferencesBody(
         val alcoholKind: AlcoholKind,
         val musicKind: MusicKind,
         val pubSize: PubSize,

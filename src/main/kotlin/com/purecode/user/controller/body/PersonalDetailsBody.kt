@@ -6,7 +6,7 @@ import com.purecode.user.entity.details.Sex
 import io.micronaut.core.annotation.Introspected
 
 @Introspected
-class PersonalDetailsBody(
+data class PersonalDetailsBody(
         val name: String,
         val sex: Sex,
         val dateOfBirth: DateBody,

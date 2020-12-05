@@ -7,9 +7,9 @@ import com.purecode.user.service.exception.UserNotFoundException
 import javax.inject.Singleton
 
 @Singleton
-class UserService(private val userRepository: UserRepository) {
-    fun findUserByEmail(emailAddress: EmailAddress): Result<User> {
-        return userRepository.findUserByEmail(emailAddress)?.let { Result.success(it) }
-                ?: Result.failure(UserNotFoundException("$emailAddress"))
+open class UserService(private val userRepository: UserRepository) {
+    open fun findUserByEmail(emailAddress: EmailAddress): UserOperation<User> {
+        return userRepository.findUserByEmail(emailAddress)?.let { UserOperation.success(it) }
+                ?: UserOperation.failure(UserNotFoundException("$emailAddress"))
     }
 }

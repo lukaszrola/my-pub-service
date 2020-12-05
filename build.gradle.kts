@@ -20,7 +20,7 @@ micronaut {
     testRuntime("kotest")
     processing {
         incremental(true)
-        annotations("com.purecode.**")
+        annotations("com.purecode.*")
     }
 }
 
