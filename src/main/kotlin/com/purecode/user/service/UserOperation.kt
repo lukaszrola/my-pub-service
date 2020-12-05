@@ -1,24 +1,28 @@
 package com.purecode.user.service
 
-class UserOperation<out T> private constructor(private val operationResult: Any) {
+import com.purecode.user.entity.UserOperationResult
+import com.purecode.user.service.exception.UserOperationException
+
+class UserOperation<out T : UserOperationResult> private constructor(private val operationResult: UserOperationResult) {
     fun <R> fold(
         onSuccess: (value: T) -> R,
-        onFailure: (exception: Throwable) -> R
+        onFailure: (exception: UserOperationException) -> R
     ): R {
-       return if(operationResult is Throwable){
+       return if(operationResult is UserOperationException){
            onFailure(operationResult)
         }
         else {
-            onSuccess(operationResult as T)
-        }
+           @Suppress("UNCHECKED_CAST")
+           onSuccess(operationResult as T)
+       }
     }
 
     companion object {
-        fun <T : Any>success (result: T) : UserOperation<T> {
+        fun <T : UserOperationResult>success (result: T) : UserOperation<T> {
             return UserOperation(result)
         }
 
-        fun <T>failure(exception: Throwable) :UserOperation<T> {
+        fun <T : UserOperationResult>failure(exception: UserOperationException) :UserOperation<T> {
             return UserOperation(exception)
         }
     }

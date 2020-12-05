@@ -3,12 +3,11 @@ package com.purecode.user.service
 import com.purecode.user.entity.EmailAddress
 import com.purecode.user.entity.User
 import com.purecode.user.repository.UserRepository
-import com.purecode.user.service.exception.UserNotFoundException
+import com.purecode.user.service.exception.UserNotFoundByEmailException
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
 import io.mockk.mockk
-import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 
@@ -45,7 +44,7 @@ internal class UserServiceTest : BehaviorSpec({
                 result.fold(
                     onSuccess = { fail("user shouldn't be returned") },
                     onFailure = {
-                        it shouldBeInstanceOf UserNotFoundException::class
+                        it shouldBeInstanceOf UserNotFoundByEmailException::class
                     }
                 )
             }
