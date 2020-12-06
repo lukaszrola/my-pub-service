@@ -11,7 +11,7 @@ data class UserResponseBody(
         val favoriteAlcoholBodies: List<AlcoholBody>
 ) {
     constructor(user: User) : this(
-            contact = ContactBody(user),
+            contact = ContactBody(user.contact),
             personalDetails = PersonalDetailsBody(user.personalDetails),
             pubPreferences = PubPreferencesBody(user.pubPreferences),
             favoriteAlcoholBodies = listOf()

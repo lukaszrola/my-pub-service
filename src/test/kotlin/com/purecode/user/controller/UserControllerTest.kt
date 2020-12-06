@@ -2,6 +2,7 @@ package com.purecode.user.controller
 
 import com.purecode.user.controller.body.UserResponseBody
 import com.purecode.user.entity.*
+import com.purecode.user.entity.contact.Contact
 import com.purecode.user.entity.details.PersonalDetails
 import com.purecode.user.entity.details.RelationshipStatus
 import com.purecode.user.entity.details.Sex
@@ -67,9 +68,12 @@ const val correctEmail = "correct.email@wp.pl"
 const val incorrectEmail = "incorrect.email@wp.pl"
 val user: User = User(
     id = UserId("1"),
-    email = EmailAddress("correct.email@wp.pl"),
+
     password = Password("somePassword"),
-    phone = PhoneNumber("523 543 432"),
+    contact = Contact(
+        email = EmailAddress("correct.email@wp.pl"),
+        phone = PhoneNumber("523 543 432")
+    ),
     personalDetails = PersonalDetails(
         name = "Some name",
         sex = Sex.MALE,
