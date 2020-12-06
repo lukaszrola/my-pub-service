@@ -1,6 +1,8 @@
 package com.purecode.user.repository
 
 import com.purecode.user.entity.*
+import com.purecode.user.entity.alcohol.Alcohol
+import com.purecode.user.entity.alcohol.AlcoholKind
 import com.purecode.user.entity.contact.Contact
 import com.purecode.user.entity.details.PersonalDetails
 import com.purecode.user.entity.details.RelationshipStatus
@@ -32,6 +34,33 @@ class UserInMemoryRepository : UserRepository {
                 pubSize = PubSize.MEDIUM,
                 pubCongestion = PubCongestion.LOW,
                 smokingPermission = SmokingPermission.NO_SMOKING
+            ),
+            favoriteAlcohols = listOf(
+                Alcohol(
+                    name = "Salamander",
+                    brand = "Browar stu mostów",
+                    kind = AlcoholKind.BEER
+                ),
+                Alcohol(
+                    name = "Komes",
+                    brand = "Browar fortuna",
+                    kind = AlcoholKind.BEER
+                ),
+                Alcohol(
+                    name = "Khvanchkara",
+                    brand = "Georgian Valey",
+                    kind = AlcoholKind.WINE
+                ),
+                Alcohol(
+                    name = "Mohito",
+                    brand = "",
+                    kind = AlcoholKind.WINE
+                ),
+                Alcohol(
+                    name = "Cydr lubelski",
+                    brand = "",
+                    kind = AlcoholKind.OTHER
+                )
             )
         )
     )
