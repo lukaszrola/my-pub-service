@@ -14,6 +14,6 @@ data class UserResponseBody(
             contact = ContactBody(user.contact),
             personalDetails = PersonalDetailsBody(user.personalDetails),
             pubPreferences = PubPreferencesBody(user.pubPreferences),
-            favoriteAlcoholBodies = listOf()
+            favoriteAlcoholBodies = user.favoriteAlcohols.map { AlcoholBody(it) }
     )
 }

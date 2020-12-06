@@ -2,6 +2,8 @@ package com.purecode.user.controller
 
 import com.purecode.user.controller.body.UserResponseBody
 import com.purecode.user.entity.*
+import com.purecode.user.entity.alcohol.Alcohol
+import com.purecode.user.entity.alcohol.AlcoholKind
 import com.purecode.user.entity.contact.Contact
 import com.purecode.user.entity.details.PersonalDetails
 import com.purecode.user.entity.details.RelationshipStatus
@@ -86,6 +88,13 @@ val user: User = User(
         pubSize = PubSize.MEDIUM,
         pubCongestion = PubCongestion.LOW,
         smokingPermission = SmokingPermission.NO_SMOKING
+    ),
+    favoriteAlcohols = listOf(
+        Alcohol(
+            name = "Porter Bałtycki",
+            brand = "Komes",
+            kind = AlcoholKind.BEER
+        )
     )
 )
 
