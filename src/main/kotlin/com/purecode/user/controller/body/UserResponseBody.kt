@@ -8,12 +8,12 @@ data class UserResponseBody(
         val contact: ContactBody,
         val personalDetails: PersonalDetailsBody,
         val pubPreferences: PubPreferencesBody,
-        val favoriteAlcoholBodies: List<AlcoholBody>
+        val favoriteAlcohols: List<AlcoholBody>
 ) {
     constructor(user: User) : this(
             contact = ContactBody(user.contact),
             personalDetails = PersonalDetailsBody(user.personalDetails),
             pubPreferences = PubPreferencesBody(user.pubPreferences),
-            favoriteAlcoholBodies = user.favoriteAlcohols.map { AlcoholBody(it) }
+            favoriteAlcohols = user.favoriteAlcohols.map { AlcoholBody(it) }
     )
 }
