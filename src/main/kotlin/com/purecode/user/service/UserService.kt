@@ -9,7 +9,8 @@ import javax.inject.Singleton
 @Singleton
 open class UserService(private val userRepository: UserRepository) {
     open fun findUserByEmail(emailAddress: EmailAddress): UserOperation<User> {
-        return userRepository.findUserByEmail(emailAddress)?.let { UserOperation.success(it) }
-                ?: UserOperation.failure(UserNotFoundByEmailException("$emailAddress"))
+        return userRepository.findUserByEmail(emailAddress)
+            ?.let { UserOperation.success(it) }
+            ?: UserOperation.failure(UserNotFoundByEmailException("$emailAddress"))
     }
 }
