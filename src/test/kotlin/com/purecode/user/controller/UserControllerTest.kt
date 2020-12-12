@@ -13,6 +13,8 @@ import com.purecode.user.service.UserOperation
 import com.purecode.user.service.UserService
 import com.purecode.user.service.exception.UserNotFoundByEmailException
 import io.kotest.core.spec.style.BehaviorSpec
+import io.micronaut.context.ApplicationContextBuilder
+import io.micronaut.context.env.Environment
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MutableHttpRequest
