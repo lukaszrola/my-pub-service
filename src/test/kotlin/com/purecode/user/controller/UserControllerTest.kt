@@ -13,62 +13,54 @@ import com.purecode.user.service.UserOperation
 import com.purecode.user.service.UserService
 import com.purecode.user.service.exception.UserNotFoundByEmailException
 import io.kotest.core.spec.style.BehaviorSpec
-import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
-import io.micronaut.http.MutableHttpRequest
-import io.micronaut.http.client.HttpClient
-import io.micronaut.http.client.annotation.Client
-import io.micronaut.http.client.exceptions.HttpClientResponseException
-import io.micronaut.test.annotation.MockBean
-import io.micronaut.test.extensions.kotest.MicronautKotestExtension.getMock
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import io.micronaut.security.authentication.Authentication
 import io.mockk.every
 import io.mockk.mockk
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
 import java.time.LocalDate
 
+class UserControllerTest : BehaviorSpec({
+    given("user controller with user service") {
+        val correctEmailAddress = EmailAddress("correct.email@wp.pl")
+        val incorrectEmail = EmailAddress("incorrect.email@wp.pl")
+        val user = buildUser()
+        val userService: UserService = mockk()
+        val userController = UserController(userService)
 
-@MicronautTest
-class UserControllerTest(@Client("/") private val client: HttpClient, private val userService: UserService) :
-    BehaviorSpec({
-        given("user controller for service with one user") {
-            `when`("request with incorrect email address was performed") {
-                val userServiceMock = getMock(userService)
-                setUpMock(userServiceMock)
-                val request = HttpRequest.GET<UserResponseBody>("/users?email=$incorrectEmail")
+        every { userService.findUserByEmail(correctEmailAddress) } returns UserOperation.success(user)
+        every { userService.findUserByEmail(incorrectEmail) } returns UserOperation.failure(
+            UserNotFoundByEmailException(incorrectEmail.value)
+        )
 
-                val response = getResponse(client, request)
+        `when`("user authenticated with correct email") {
+            val authentication: Authentication = mockk()
+            every { authentication.name } returns correctEmailAddress.value
 
-                then("response user not found is returned") {
-                    response.status shouldBeEqualTo HttpStatus.NOT_FOUND
-                }
+            val result = userController.getUser(authentication)
+
+            then("expected user with response code 200 was returned") {
+                result.status shouldBe HttpStatus.OK
+                result.body() shouldBeEqualTo UserResponseBody(user)
             }
-
-            `when`("request with correct email was performed") {
-                val userServiceMock = getMock(userService)
-                setUpMock(userServiceMock)
-                val request = HttpRequest.GET<UserResponseBody>("/users?email=$correctEmail")
-                val response = getResponse(client, request)
-
-                then("expectedUser is returned") {
-                    response.status shouldBeEqualTo HttpStatus.OK
-                }
-            }
-
         }
 
-    }) {
+        `when`("user authenticate with incorrect email") {
+            val authentication: Authentication= mockk()
+            every { authentication.name } returns incorrectEmail.value
 
+            val  result = userController.getUser(authentication)
 
-    @MockBean(UserService::class)
-    fun userService(): UserService {
-        return mockk()
+            then("error message with code 404 was returned") {
+                result.status shouldBe HttpStatus.NOT_FOUND
+            }
+        }
+
     }
-}
+})
 
-const val correctEmail = "correct.email@wp.pl"
-const val incorrectEmail = "incorrect.email@wp.pl"
-val user: User = User(
+fun buildUser() = User(
     id = UserId("1"),
 
     password = Password("somePassword"),
@@ -97,16 +89,3 @@ val user: User = User(
         )
     )
 )
-
-private fun getResponse(client: HttpClient, request: MutableHttpRequest<UserResponseBody>) = try {
-    client.toBlocking().exchange(request, UserResponseBody::class.java)
-} catch (e: HttpClientResponseException) {
-    e.response
-}
-
-fun setUpMock(userServiceMock: UserService) {
-    every { userServiceMock.findUserByEmail(EmailAddress(incorrectEmail)) } returns UserOperation.failure(
-        UserNotFoundByEmailException(incorrectEmail)
-    )
-    every { userServiceMock.findUserByEmail(EmailAddress(correctEmail)) } returns UserOperation.success(user)
-}

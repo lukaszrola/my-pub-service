@@ -1,3 +1,24 @@
 micronaut:
   application:
     name: myPubService
+---
+#tag::security[]
+micronaut:
+  security:
+    authentication: bearer  # <1>
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator: # <2>
+              secret: pleaseChangeThisSecretForANewOne # <3>
+#end::security[]
+#tag::refresh[]
+---
+micronaut:
+  security:
+    token:
+      jwt:
+        generator:
+          refresh-token:
+            secret: pleaseChangeThisSecretForANewOne # <1>

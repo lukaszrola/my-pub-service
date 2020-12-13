@@ -7,17 +7,21 @@ import com.purecode.user.service.UserService
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.QueryValue
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.authentication.Authentication
+import io.micronaut.security.rules.SecurityRule
 
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("users")
 class UserController(private val userService: UserService) {
 
     @Get
-    fun getUser(@QueryValue email: String): HttpResponse<*> = userService
-            .findUserByEmail(EmailAddress(email))
+    fun getUser(authentication: Authentication): HttpResponse<*> {
+        return userService
+            .findUserByEmail(EmailAddress(authentication.name))
             .fold(
-                    onSuccess = { HttpResponse.ok(UserResponseBody(it)) },
-                    onFailure = { UserErrors.resolve(it) }
+                onSuccess = { HttpResponse.ok(UserResponseBody(it)) },
+                onFailure = { UserErrors.resolve(it) }
             )
-
+    }
 }
