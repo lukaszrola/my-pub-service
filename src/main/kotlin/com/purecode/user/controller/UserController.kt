@@ -11,7 +11,7 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 
-@Secured(SecurityRule.IS_AUTHENTICATED) // <1>
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("users")
 class UserController(private val userService: UserService) {
 
