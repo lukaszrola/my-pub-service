@@ -16,11 +16,11 @@ import javax.inject.Singleton
 @Singleton
 class CustomRefreshTokenPersistence
     (private val refreshTokenRepository: RefreshTokenRepository) : RefreshTokenPersistence {
-    @EventListener // <3>
+    @EventListener
     override fun persistToken(event: RefreshTokenGeneratedEvent) {
         if (event.refreshToken != null && event.userDetails != null && event.userDetails.username != null) {
             val payload = event.refreshToken
-            refreshTokenRepository.save(event.userDetails.username, payload, false) // <4>
+            refreshTokenRepository.save(event.userDetails.username, payload, false)
         }
     }
 
@@ -35,7 +35,7 @@ class CustomRefreshTokenPersistence
                         )
                     )
                 } else {
-                    emitter.onNext(UserDetails(it.username, ArrayList())) // <6>
+                    emitter.onNext(UserDetails(it.username, ArrayList()))
                     emitter.onComplete()
                 }
             } ?: emitter.onError(
